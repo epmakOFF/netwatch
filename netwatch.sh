@@ -2,10 +2,12 @@
 # delay variable
 DELAY=10
 
+PREFIX="[netwatch]"
+
 # help message
 usage() {
 echo '
-Usage: $(basename $0) HOST SCRIPT
+Usage: netwatch.sh HOST SCRIPT
 
 Examples:
   netwatch.sh 1.1.1.1 /usr/local/bin/my_script
@@ -69,8 +71,8 @@ do
     if [ $RESULT -ne 0 ]; then
         fail_check=$((fail_check+1))
         if [ $fail_check -eq 3 ]; then
-            echo "$time Host $HOST is unavailable"
-            echo "Run script $SCRIPT"
+            echo "$PREFIX $time Host $HOST is unavailable"
+            echo "$PREFIX Run script $SCRIPT"
             $SCRIPT &
             fail_check=0
         fi
@@ -79,7 +81,7 @@ do
     elif  [ $RESULT -eq 0 ]; then
         good_check=$((good_check+1))
         if ([ $good_check -eq 3 ] && [ $STATUS != true ]); then
-            echo "$time Host $HOST is available"
+            echo "$PREFIX $time Host $HOST is available"
             good_check=0
             fail_check=0
             STATUS=true
